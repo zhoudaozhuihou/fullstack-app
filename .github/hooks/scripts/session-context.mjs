@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
- * SessionStart 上下文注入：会话开始时注入项目背景与关键指针。
- * 输出：hookSpecificOutput.additionalContext 追加到会话上下文。
+ * sessionStart 上下文注入（Copilot harness 契约）。
+ * 输入：stdin 一行 JSON，字段含 cwd / source / initialPrompt。
+ * 输出：顶层 {"additionalContext":"..."}，注入会话上下文。
  */
 import { execSync } from 'node:child_process';
 
@@ -11,12 +12,7 @@ const cwd = payload.cwd || process.cwd();
 
 let branch = '';
 let commits = [];
-const gitOpts = {
-  cwd,
-  encoding: 'utf8',
-  timeout: 3000,
-  stdio: ['ignore', 'pipe', 'ignore'],
-};
+const gitOpts = { cwd, encoding: 'utf8', timeout: 3000, stdio: ['ignore', 'pipe', 'ignore'] };
 try {
   branch = execSync('git rev-parse --abbrev-ref HEAD', gitOpts).trim();
 } catch {
@@ -40,14 +36,7 @@ const lines = [
   '任务板工具: 可用 MCP `taskboard` 读写 docs/tasks/ 任务卡',
 ].filter(Boolean);
 
-process.stdout.write(
-  JSON.stringify({
-    hookSpecificOutput: {
-      hookEventName: 'SessionStart',
-      additionalContext: lines.join('\n'),
-    },
-  }),
-);
+process.stdout.write(JSON.stringify({ additionalContext: lines.join('\n') }));
 process.exit(0);
 
 // ---------------------------------------------------------------------------

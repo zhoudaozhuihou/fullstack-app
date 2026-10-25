@@ -11,8 +11,11 @@
 import readline from 'node:readline';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const ROOT = process.env.TASKBOARD_ROOT || process.cwd();
+// 自定位仓库根：本文件位于 <root>/tools/taskboard-mcp/server.mjs，故根在其上两级。
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const ROOT = process.env.TASKBOARD_ROOT || path.resolve(__dirname, '..', '..');
 const TASKS_DIR = path.join(ROOT, 'docs', 'tasks');
 
 const SERVER = { name: 'taskboard-mcp', version: '0.1.0' };

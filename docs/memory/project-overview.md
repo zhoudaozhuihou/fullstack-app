@@ -16,7 +16,8 @@
 | `.github/` | Copilot 自定义能力 | agents / skills / hooks / workflows |
 | `tools/` | 本地 MCP 服务器 | taskboard 任务板 |
 | `deploy/` | 本地编排 | docker-compose（postgres + redis + 服务） |
-| `.vscode/` | 编辑器配置 | mcp.json（MCP 服务器）、settings.json |
+| `.mcp.json` | MCP 服务器配置（Copilot 便携格式） | taskboard 任务板 |
+| `.vscode/` | 编辑器配置 | settings.json（Copilot 相关设置） |
 
 ## 技术栈基线
 

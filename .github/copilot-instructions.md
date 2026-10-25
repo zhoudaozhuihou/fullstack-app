@@ -25,7 +25,7 @@
 
 - **子 Agent**：`.github/agents/*.agent.md`。选择 `orchestrator`，由其按需委派 `planner / developer / tester / reviewer / security-auditor / researcher`。
 - **技能**：`.github/skills/*/SKILL.md`（原生发现位置，按相关性自动加载）。
-- **钩子**：`.github/hooks/*.json`（安全护栏、上下文注入、质量门禁）。
+- **钩子**：`.github/hooks/*.json`（安全护栏、上下文注入、编辑后自动格式化）。
 - **工具（MCP）**：`.vscode/mcp.json`（含本地 `taskboard` 任务板服务器）。
 - **记忆**：本文件（项目说明）+ `docs/memory/`（知识库）+ VS Code 本地 memory 工具。
 

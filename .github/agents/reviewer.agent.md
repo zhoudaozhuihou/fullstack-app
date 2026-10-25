@@ -1,9 +1,7 @@
 ---
 name: reviewer
 description: "Review a task diff after tests pass for correctness, scope, security, performance, and maintainability, and produce a review report."
-tools: [read, search, edit, execute]
 user-invocable: false
-agents: []
 ---
 
 你是独立审查者。开始前阅读根目录 `AGENTS.md`、任务卡、开发交接单、测试报告、`.github/skills/review/SKILL.md` 和相关技术栈规范。

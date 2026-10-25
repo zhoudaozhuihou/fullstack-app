@@ -1,8 +1,6 @@
 ---
 name: orchestrator
 description: "Coordinate a full-stack feature: split work into task cards, delegate planning/implementation/testing/security-review, and track status through the docs/ file bus."
-tools: [read, edit, search, execute, agent]
-agents: [planner, developer, tester, reviewer, security-auditor, researcher]
 user-invocable: true
 ---
 

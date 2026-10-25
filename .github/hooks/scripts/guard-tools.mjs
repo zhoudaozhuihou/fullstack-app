@@ -1,45 +1,40 @@
 #!/usr/bin/env node
 /**
- * PreToolUse 安全护栏：拦截危险命令、受保护文件写入、疑似密钥写入。
- * 输入：stdin 一行 JSON（含 tool_name / tool_input）。
- * 输出：命中时 stdout 写 deny 决策；否则静默（exit 0）。
+ * preToolUse 安全护栏（Copilot harness 契约）。
+ * 输入：stdin 一行 JSON，字段为 toolName / toolArgs（JSON 字符串）/ cwd。
+ * 输出：命中时写顶层 {"permissionDecision":"deny","permissionDecisionReason":"..."}；否则静默（exit 0）。
  */
 const input = await readStdin();
 const payload = safeParse(input);
-const reason = inspect(payload.tool_name, payload.tool_input);
+const reason = inspect(payload);
 
 if (reason) {
   process.stdout.write(
-    JSON.stringify({
-      hookSpecificOutput: {
-        hookEventName: 'PreToolUse',
-        permissionDecision: 'deny',
-        permissionDecisionReason: reason,
-      },
-    }),
+    JSON.stringify({ permissionDecision: 'deny', permissionDecisionReason: reason }),
   );
 }
 process.exit(0);
 
 // ---------------------------------------------------------------------------
 
-function inspect(toolName, toolInput) {
-  const name = String(toolName || '').toLowerCase();
-  const blob = toolInput == null ? '' : JSON.stringify(toolInput);
+function inspect(payload) {
+  const name = String(payload.toolName || '').toLowerCase();
+  const args = parseToolArgs(payload.toolArgs);
 
   // 1) 危险 shell 命令
-  if (/(bash|terminal|execute|shell|run)/.test(name) || looksLikeCommand(toolInput)) {
+  if (/(bash|terminal|execute|shell|run)/.test(name) || hasCommand(args)) {
+    const blob = JSON.stringify(args);
     const r = dangerousCommand(blob);
     if (r) return r;
   }
 
-  // 2) 受保护文件写入
-  if (/(write|edit|patch|apply)/.test(name)) {
-    const p = extractPath(toolInput);
+  // 2) 受保护文件写入 / 疑似密钥写入
+  if (/(write|edit|create|patch|apply)/.test(name)) {
+    const p = extractPath(args);
     if (p && protectedPath(p)) {
       return `已拦截对受保护文件的修改: ${p}（请改 .env.example 或走正规评审流程）`;
     }
-    const s = secretIn(blob);
+    const s = secretIn(JSON.stringify(args));
     if (s) {
       return `疑似密钥/敏感信息写入被拦截 (${s})。请使用环境变量 + .env.example，密钥不得入库。`;
     }
@@ -47,13 +42,25 @@ function inspect(toolName, toolInput) {
   return null;
 }
 
-function looksLikeCommand(toolInput) {
-  const t = toolInput && typeof toolInput === 'object' ? toolInput : {};
+/** Copilot 的 toolArgs 是 JSON 字符串，需二次解析；也兼容已是对象的情况。 */
+function parseToolArgs(toolArgs) {
+  if (toolArgs == null) return {};
+  if (typeof toolArgs === 'string') {
+    try {
+      return JSON.parse(toolArgs);
+    } catch {
+      return { raw: toolArgs };
+    }
+  }
+  return toolArgs;
+}
+
+function hasCommand(args) {
   return (
-    t.command !== undefined ||
-    t.cmd !== undefined ||
-    t.command_line !== undefined ||
-    t.arguments !== undefined
+    args.command !== undefined ||
+    args.cmd !== undefined ||
+    args.command_line !== undefined ||
+    args.arguments !== undefined
   );
 }
 
@@ -95,10 +102,9 @@ function secretIn(blob) {
   return null;
 }
 
-function extractPath(toolInput) {
-  const t = toolInput && typeof toolInput === 'object' ? toolInput : {};
-  for (const k of ['file_path', 'filePath', 'path', 'target_file', 'absolutePath', 'uri']) {
-    const v = t[k];
+function extractPath(args) {
+  for (const k of ['path', 'file_path', 'filePath', 'target_file', 'absolutePath', 'uri']) {
+    const v = args[k];
     if (typeof v === 'string') return v;
   }
   return null;

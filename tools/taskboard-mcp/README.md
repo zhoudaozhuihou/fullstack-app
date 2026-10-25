@@ -1,10 +1,10 @@
 # taskboard-mcp
 
-零依赖的本地 MCP (Model Context Protocol) 服务器，让 VS Code Copilot 通过**工具调用**读写 `docs/tasks/` 下的任务卡，作为 Agent 间文件总线的程序化入口。
+零依赖的本地 MCP (Model Context Protocol) 服务器，让 Copilot 通过**工具调用**读写 `docs/tasks/` 下的任务卡，作为 Agent 间文件总线的程序化入口。
 
 ## 依赖
 
-仅 Node.js ≥ 18（仓库技术栈基线为 Node ≥ 20），**无需 `npm install`**。
+仅 Node.js ≥ 18（仓库技术栈基线为 Node ≥ 20），**无需 `npm install`**。服务器会**自动定位仓库根**（相对自身文件路径），不依赖启动时的 cwd。
 
 ## 暴露的工具
 
@@ -18,7 +18,6 @@
 ## 本地验证
 
 ```bash
-# 用标准输入喂 JSON-RPC 消息即可验证（按顺序回车发送）
 printf '%s\n' \
   '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"cli","version":"0"}}}' \
   '{"jsonrpc":"2.0","method":"notifications/initialized"}' \
@@ -27,23 +26,22 @@ printf '%s\n' \
   | node tools/taskboard-mcp/server.mjs
 ```
 
-## 在 VS Code 中使用
+## 在 VS Code / Copilot 中使用
 
-已在 `.vscode/mcp.json` 中注册为 `taskboard` 服务器，Copilot 会在需要时自动调用。
-
-如需独立测试，可手动配置任意 MCP 客户端：
+已在工作区根 `.mcp.json`（Copilot 便携格式）中注册为 `taskboard`，Copilot harness 会直接读取，并在需要时自动调用：
 
 ```json
 {
-  "servers": {
+  "mcpServers": {
     "taskboard": {
-      "type": "stdio",
       "command": "node",
       "args": ["tools/taskboard-mcp/server.mjs"]
     }
   }
 }
 ```
+
+> 说明：Copilot harness 读的是工作区根 `.mcp.json`（顶层 `mcpServers`），不是 `.vscode/mcp.json`（后者是 VS Code/Local 格式，Copilot 不直接读取）。
 
 ## 约定
 

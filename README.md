@@ -80,8 +80,8 @@ code --agents     # 2) 打开 Agents Window（或在标题栏点 "Open in Agents
 |------|------|------|
 | **Agent** | `.github/agents/*.agent.md` | 7 个：orchestrator / planner / developer / tester / reviewer / security-auditor / researcher |
 | **Skill** | `.github/skills/*/SKILL.md` | 10 个：技术栈规范 + 流程规范，按需自动加载 |
-| **Tool** | `.vscode/mcp.json` + `tools/taskboard-mcp/` | 本地零依赖 `taskboard` MCP 服务器，读写任务卡 |
-| **Hooks** | `.github/hooks/*.json` | 安全护栏 / 上下文注入 / 质量门禁 |
+| **Tool** | `.mcp.json` + `tools/taskboard-mcp/` | 本地零依赖 `taskboard` MCP 服务器，读写任务卡 |
+| **Hooks** | `.github/hooks/*.json` | 安全护栏 / 上下文注入 / 编辑后自动格式化 |
 | **Memory** | `.github/copilot-instructions.md` + `docs/memory/` | 始终加载项目说明 + 版本化知识库 |
 
 扩展方式见 [`docs/agent-capabilities.md`](docs/agent-capabilities.md)。

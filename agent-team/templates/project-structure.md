@@ -19,8 +19,8 @@ project-root/
 │   └── memory/                  # 项目知识库（概览/架构等稳定事实）
 ├── tools/
 │   └── taskboard-mcp/           # 本地 MCP 服务器（读写任务卡）
+├── .mcp.json                    # MCP 服务器配置（Copilot 便携格式）
 ├── .vscode/
-│   ├── mcp.json                 # MCP 服务器配置
 │   └── settings.json            # Copilot 相关设置
 ├── agent-team/                  # 手动多会话协作包（roles/ templates/）
 ├── backend-py/                  # FastAPI 服务（skills/python-fastapi）
@@ -47,5 +47,5 @@ project-root/
 
 ## Copilot 自定义能力
 
-- Agent：`.github/agents/*.agent.md`；Skill：`.github/skills/*/SKILL.md`；Tool：`.vscode/mcp.json` + `tools/`；Hooks：`.github/hooks/*.json`；Memory：`.github/copilot-instructions.md` + `docs/memory/`。
+- Agent：`.github/agents/*.agent.md`；Skill：`.github/skills/*/SKILL.md`；Tool：`.mcp.json` + `tools/`；Hooks：`.github/hooks/*.json`；Memory：`.github/copilot-instructions.md` + `docs/memory/`。
 - 详见 `docs/agent-capabilities.md`。

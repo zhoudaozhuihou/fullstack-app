@@ -49,8 +49,8 @@ docs/
 |------|------|------|
 | Agent（子代理） | `.github/agents/*.agent.md` | 选择 `orchestrator`，按需委派 `planner/developer/tester/reviewer/security-auditor/researcher` |
 | Skill（技能） | `.github/skills/*/SKILL.md` | 按任务相关性自动加载，含技术栈与流程规范 |
-| Tool（工具/MCP） | `.vscode/mcp.json` + `tools/taskboard-mcp/` | 本地 `taskboard` 服务器读写任务卡 |
-| Hooks（钩子） | `.github/hooks/*.json` | 安全护栏 / 上下文注入 / 质量门禁 |
+| Tool（工具/MCP） | `.mcp.json` + `tools/taskboard-mcp/` | 本地 `taskboard` 服务器读写任务卡 |
+| Hooks（钩子） | `.github/hooks/*.json` | 安全护栏 / 上下文注入 / 编辑后自动格式化 |
 | Memory（记忆） | `.github/copilot-instructions.md` + `docs/memory/` | 始终加载的项目说明 + 版本化知识库 |
 
 详见 `docs/agent-capabilities.md`。

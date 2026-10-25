@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "taskboard": {
+      "command": "node",
+      "args": ["tools/taskboard-mcp/server.mjs"]
+    }
+  }
+}
