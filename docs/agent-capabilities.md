@@ -20,6 +20,22 @@
 - 内置 7 个：`orchestrator`、`planner`、`developer`、`tester`、`reviewer`、`security-auditor`、`researcher`。
 - 在 Copilot harness 下**确定可用**的 frontmatter 字段：`name`、`description`、`user-invocable`、`disable-model-invocation`、`model`、`reasoning-effort`。
 
+### 作用域（workspace vs user）
+
+| 作用域 | 位置 | 何时可见 |
+|--------|------|---------|
+| 工作区级 | `.github/agents/` | 仅打开本仓库时 |
+| 用户级 | `~/.copilot/agents/` | 任意项目 |
+
+把 agent 安装到用户级（跨项目全局可用）：
+
+```bash
+node scripts/sync-copilot-user.mjs              # 同步 agents + skills 到 ~/.copilot/
+node scripts/sync-copilot-user.mjs --uninstall  # 卸载
+```
+
+仓库 `.github/agents` 与 `.github/skills` 是唯一源；更新后重跑脚本同步。
+
 ### Copilot 与 Local 的差异（重点）
 
 | 字段 | Local harness | Copilot harness |

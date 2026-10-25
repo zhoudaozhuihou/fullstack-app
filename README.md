@@ -86,6 +86,19 @@ code --agents     # 2) 打开 Agents Window（或在标题栏点 "Open in Agents
 
 扩展方式见 [`docs/agent-capabilities.md`](docs/agent-capabilities.md)。
 
+### 安装到用户级（跨项目全局可用，可选）
+
+默认 agent 存在工作区 `.github/agents/`，**只在打开本仓库时可见**。若想在**任意项目**里都能用这些 agent，运行一次同步脚本，把它们装到用户级 `~/.copilot/`：
+
+```bash
+node scripts/sync-copilot-user.mjs              # 同步 agents + skills 到 ~/.copilot/
+node scripts/sync-copilot-user.mjs --dry-run    # 预览将执行的动作
+node scripts/sync-copilot-user.mjs --uninstall  # 卸载
+```
+
+- 仓库 `.github/agents` 与 `.github/skills` 仍是**唯一源**；更新后重跑脚本即可同步。
+- 装好后在 VS Code **Reload Window**（`Developer: Reload Window`）生效；agent 会出现在任意项目的 Copilot 选择器里。
+
 ---
 
 ## 运行服务（可选）
