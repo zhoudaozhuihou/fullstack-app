@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+dist/
+*.egg-info/
+
+# Java
+target/
+*.class
+.idea/
+*.iml
+
+# Node
+node_modules/
+frontend/dist/
+coverage/
+
+# 环境与密钥
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# 系统与编辑器
+.DS_Store
+*.log
+.vscode/*
+!.vscode/extensions.json
+!.vscode/mcp.json
+!.vscode/settings.json

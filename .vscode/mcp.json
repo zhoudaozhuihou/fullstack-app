@@ -1,0 +1,12 @@
+{
+  "servers": {
+    "taskboard": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["tools/taskboard-mcp/server.mjs"],
+      "env": {
+        "TASKBOARD_ROOT": "${workspaceFolder}"
+      }
+    }
+  }
+}

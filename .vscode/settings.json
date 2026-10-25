@@ -1,0 +1,6 @@
+{
+  // VS Code Copilot 自定义能力相关设置。
+  // 说明见 docs/mcp-servers.md 与 .github/hooks/README.md
+  "github.copilot.chat.skillTool.enabled": true,
+  "chat.useCustomizationsInParentRepositories": true
+}
